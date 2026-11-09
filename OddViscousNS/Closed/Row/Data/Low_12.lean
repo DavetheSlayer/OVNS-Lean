@@ -4,90 +4,650 @@ import OddViscousNS.Closed.Row.Data.Tabs
 
 namespace OVNS.Row
 
-def rL12_0 : List (Nat × Nat × Nat × Nat) := [(21, 16, 14, 30), (21, 16, 15, 31), (21, 16, 16, 31), (21, 17, 0, 28), (21, 17, 1, 28), (21, 17, 2, 28), (21, 17, 3, 28), (21, 17, 4, 28)]
+def rL12_0 : List (Nat × Nat × Nat × Nat) := [(21, 16, 14, 30)]
 
 theorem okL12_0 : rL12_0.all rowOK = true := by decide +kernel
 
-def rL12_1 : List (Nat × Nat × Nat × Nat) := [(21, 17, 5, 28), (21, 17, 6, 28), (21, 17, 7, 28), (21, 17, 8, 29), (21, 17, 9, 29), (21, 17, 10, 29), (21, 17, 11, 30), (21, 17, 12, 30)]
+def rL12_1 : List (Nat × Nat × Nat × Nat) := [(21, 16, 15, 31)]
 
 theorem okL12_1 : rL12_1.all rowOK = true := by decide +kernel
 
-def rL12_2 : List (Nat × Nat × Nat × Nat) := [(21, 17, 13, 30), (21, 17, 14, 31), (21, 17, 15, 31), (21, 17, 16, 32), (21, 17, 17, 32), (21, 18, 0, 28), (21, 18, 1, 28), (21, 18, 2, 28)]
+def rL12_2 : List (Nat × Nat × Nat × Nat) := [(21, 16, 16, 31)]
 
 theorem okL12_2 : rL12_2.all rowOK = true := by decide +kernel
 
-def rL12_3 : List (Nat × Nat × Nat × Nat) := [(21, 18, 3, 28), (21, 18, 4, 28), (21, 18, 5, 29), (21, 18, 6, 29), (21, 18, 7, 29), (21, 18, 8, 29), (21, 18, 9, 30), (21, 18, 10, 30)]
+def rL12_3 : List (Nat × Nat × Nat × Nat) := [(21, 17, 0, 28)]
 
 theorem okL12_3 : rL12_3.all rowOK = true := by decide +kernel
 
-def rL12_4 : List (Nat × Nat × Nat × Nat) := [(21, 18, 11, 30), (21, 18, 12, 31), (21, 18, 13, 31), (21, 18, 14, 31), (21, 18, 15, 32), (21, 18, 16, 32), (21, 18, 17, 33), (21, 18, 18, 33)]
+def rL12_4 : List (Nat × Nat × Nat × Nat) := [(21, 17, 1, 28)]
 
 theorem okL12_4 : rL12_4.all rowOK = true := by decide +kernel
 
-def rL12_5 : List (Nat × Nat × Nat × Nat) := [(21, 19, 0, 29), (21, 19, 1, 29), (21, 19, 2, 29), (21, 19, 3, 29), (21, 19, 4, 29), (21, 19, 5, 29), (21, 19, 6, 29), (21, 19, 7, 30)]
+def rL12_5 : List (Nat × Nat × Nat × Nat) := [(21, 17, 2, 28)]
 
 theorem okL12_5 : rL12_5.all rowOK = true := by decide +kernel
 
-def rL12_6 : List (Nat × Nat × Nat × Nat) := [(21, 19, 8, 30), (21, 19, 9, 30), (21, 19, 10, 31), (21, 19, 11, 31), (21, 19, 12, 31), (21, 19, 13, 32), (21, 19, 14, 32), (21, 19, 15, 33)]
+def rL12_6 : List (Nat × Nat × Nat × Nat) := [(21, 17, 3, 28)]
 
 theorem okL12_6 : rL12_6.all rowOK = true := by decide +kernel
 
-def rL12_7 : List (Nat × Nat × Nat × Nat) := [(21, 19, 16, 33), (21, 19, 17, 34), (21, 19, 18, 34), (21, 19, 19, 35), (21, 20, 0, 29), (21, 20, 1, 30), (21, 20, 2, 30), (21, 20, 3, 30)]
+def rL12_7 : List (Nat × Nat × Nat × Nat) := [(21, 17, 4, 28)]
 
 theorem okL12_7 : rL12_7.all rowOK = true := by decide +kernel
 
-def rL12_8 : List (Nat × Nat × Nat × Nat) := [(21, 20, 4, 30), (21, 20, 5, 30), (21, 20, 6, 30), (21, 20, 7, 30), (21, 20, 8, 31), (21, 20, 9, 31), (21, 20, 10, 31), (21, 20, 11, 32)]
+def rL12_8 : List (Nat × Nat × Nat × Nat) := [(21, 17, 5, 28)]
 
 theorem okL12_8 : rL12_8.all rowOK = true := by decide +kernel
 
-def rL12_9 : List (Nat × Nat × Nat × Nat) := [(21, 20, 12, 32), (21, 20, 13, 32), (21, 20, 14, 33), (21, 20, 15, 33), (21, 20, 16, 34), (21, 20, 17, 34), (21, 20, 18, 35), (21, 20, 19, 35)]
+def rL12_9 : List (Nat × Nat × Nat × Nat) := [(21, 17, 6, 28)]
 
 theorem okL12_9 : rL12_9.all rowOK = true := by decide +kernel
 
-def rL12_10 : List (Nat × Nat × Nat × Nat) := [(21, 20, 20, 36), (21, 21, 0, 30), (21, 21, 1, 30), (21, 21, 2, 30), (21, 21, 3, 30), (21, 21, 4, 30), (21, 21, 5, 31), (21, 21, 6, 31)]
+def rL12_10 : List (Nat × Nat × Nat × Nat) := [(21, 17, 7, 28)]
 
 theorem okL12_10 : rL12_10.all rowOK = true := by decide +kernel
 
-def rL12_11 : List (Nat × Nat × Nat × Nat) := [(21, 21, 7, 31), (21, 21, 8, 31), (21, 21, 9, 32), (21, 21, 10, 32), (21, 21, 11, 32), (21, 21, 12, 33), (21, 21, 13, 33), (21, 21, 14, 33)]
+def rL12_11 : List (Nat × Nat × Nat × Nat) := [(21, 17, 8, 29)]
 
 theorem okL12_11 : rL12_11.all rowOK = true := by decide +kernel
 
-def rL12_12 : List (Nat × Nat × Nat × Nat) := [(21, 21, 15, 34), (21, 21, 16, 34), (21, 21, 17, 35), (21, 21, 18, 35), (21, 21, 19, 36), (21, 21, 20, 36), (21, 21, 21, 37), (22, 0, 0, 22)]
+def rL12_12 : List (Nat × Nat × Nat × Nat) := [(21, 17, 9, 29)]
 
 theorem okL12_12 : rL12_12.all rowOK = true := by decide +kernel
 
-def rL12_13 : List (Nat × Nat × Nat × Nat) := [(22, 1, 0, 23), (22, 1, 1, 23), (22, 2, 0, 23), (22, 2, 1, 23), (22, 2, 2, 23), (22, 3, 0, 23), (22, 3, 1, 23), (22, 3, 2, 23)]
+def rL12_13 : List (Nat × Nat × Nat × Nat) := [(21, 17, 10, 29)]
 
 theorem okL12_13 : rL12_13.all rowOK = true := by decide +kernel
 
-def rL12_14 : List (Nat × Nat × Nat × Nat) := [(22, 3, 3, 23), (22, 4, 0, 23), (22, 4, 1, 23), (22, 4, 2, 23), (22, 4, 3, 23), (22, 4, 4, 23), (22, 5, 0, 23), (22, 5, 1, 23)]
+def rL12_14 : List (Nat × Nat × Nat × Nat) := [(21, 17, 11, 30)]
 
 theorem okL12_14 : rL12_14.all rowOK = true := by decide +kernel
 
-def rL12_15 : List (Nat × Nat × Nat × Nat) := [(22, 5, 2, 23), (22, 5, 3, 23), (22, 5, 4, 23), (22, 5, 5, 24), (22, 6, 0, 23), (22, 6, 1, 23), (22, 6, 2, 23), (22, 6, 3, 23)]
+def rL12_15 : List (Nat × Nat × Nat × Nat) := [(21, 17, 12, 30)]
 
 theorem okL12_15 : rL12_15.all rowOK = true := by decide +kernel
 
-def rL12_16 : List (Nat × Nat × Nat × Nat) := [(22, 6, 4, 24), (22, 6, 5, 24), (22, 6, 6, 24), (22, 7, 0, 24), (22, 7, 1, 24), (22, 7, 2, 24), (22, 7, 3, 24), (22, 7, 4, 24)]
+def rL12_16 : List (Nat × Nat × Nat × Nat) := [(21, 17, 13, 30)]
 
 theorem okL12_16 : rL12_16.all rowOK = true := by decide +kernel
 
-def rL12_17 : List (Nat × Nat × Nat × Nat) := [(22, 7, 5, 24), (22, 7, 6, 24), (22, 7, 7, 25), (22, 8, 0, 24), (22, 8, 1, 24), (22, 8, 2, 24), (22, 8, 3, 24), (22, 8, 4, 24)]
+def rL12_17 : List (Nat × Nat × Nat × Nat) := [(21, 17, 14, 31)]
 
 theorem okL12_17 : rL12_17.all rowOK = true := by decide +kernel
 
-def rL12_18 : List (Nat × Nat × Nat × Nat) := [(22, 8, 5, 24), (22, 8, 6, 25), (22, 8, 7, 25), (22, 8, 8, 25), (22, 9, 0, 24), (22, 9, 1, 24), (22, 9, 2, 24), (22, 9, 3, 24)]
+def rL12_18 : List (Nat × Nat × Nat × Nat) := [(21, 17, 15, 31)]
 
 theorem okL12_18 : rL12_18.all rowOK = true := by decide +kernel
 
-def rL12_19 : List (Nat × Nat × Nat × Nat) := [(22, 9, 4, 25), (22, 9, 5, 25), (22, 9, 6, 25), (22, 9, 7, 25), (22, 9, 8, 26), (22, 9, 9, 26), (22, 10, 0, 25), (22, 10, 1, 25)]
+def rL12_19 : List (Nat × Nat × Nat × Nat) := [(21, 17, 16, 32)]
 
 theorem okL12_19 : rL12_19.all rowOK = true := by decide +kernel
 
-def rM12 : List (Nat × Nat × Nat × Nat) := rL12_0 ++ (rL12_1 ++ (rL12_2 ++ (rL12_3 ++ (rL12_4 ++ (rL12_5 ++ (rL12_6 ++ (rL12_7 ++ (rL12_8 ++ (rL12_9 ++ (rL12_10 ++ (rL12_11 ++ (rL12_12 ++ (rL12_13 ++ (rL12_14 ++ (rL12_15 ++ (rL12_16 ++ (rL12_17 ++ (rL12_18 ++ (rL12_19)))))))))))))))))))
+def rL12_20 : List (Nat × Nat × Nat × Nat) := [(21, 17, 17, 32)]
+
+theorem okL12_20 : rL12_20.all rowOK = true := by decide +kernel
+
+def rL12_21 : List (Nat × Nat × Nat × Nat) := [(21, 18, 0, 28)]
+
+theorem okL12_21 : rL12_21.all rowOK = true := by decide +kernel
+
+def rL12_22 : List (Nat × Nat × Nat × Nat) := [(21, 18, 1, 28)]
+
+theorem okL12_22 : rL12_22.all rowOK = true := by decide +kernel
+
+def rL12_23 : List (Nat × Nat × Nat × Nat) := [(21, 18, 2, 28)]
+
+theorem okL12_23 : rL12_23.all rowOK = true := by decide +kernel
+
+def rL12_24 : List (Nat × Nat × Nat × Nat) := [(21, 18, 3, 28)]
+
+theorem okL12_24 : rL12_24.all rowOK = true := by decide +kernel
+
+def rL12_25 : List (Nat × Nat × Nat × Nat) := [(21, 18, 4, 28)]
+
+theorem okL12_25 : rL12_25.all rowOK = true := by decide +kernel
+
+def rL12_26 : List (Nat × Nat × Nat × Nat) := [(21, 18, 5, 29)]
+
+theorem okL12_26 : rL12_26.all rowOK = true := by decide +kernel
+
+def rL12_27 : List (Nat × Nat × Nat × Nat) := [(21, 18, 6, 29)]
+
+theorem okL12_27 : rL12_27.all rowOK = true := by decide +kernel
+
+def rL12_28 : List (Nat × Nat × Nat × Nat) := [(21, 18, 7, 29)]
+
+theorem okL12_28 : rL12_28.all rowOK = true := by decide +kernel
+
+def rL12_29 : List (Nat × Nat × Nat × Nat) := [(21, 18, 8, 29)]
+
+theorem okL12_29 : rL12_29.all rowOK = true := by decide +kernel
+
+def rL12_30 : List (Nat × Nat × Nat × Nat) := [(21, 18, 9, 30)]
+
+theorem okL12_30 : rL12_30.all rowOK = true := by decide +kernel
+
+def rL12_31 : List (Nat × Nat × Nat × Nat) := [(21, 18, 10, 30)]
+
+theorem okL12_31 : rL12_31.all rowOK = true := by decide +kernel
+
+def rL12_32 : List (Nat × Nat × Nat × Nat) := [(21, 18, 11, 30)]
+
+theorem okL12_32 : rL12_32.all rowOK = true := by decide +kernel
+
+def rL12_33 : List (Nat × Nat × Nat × Nat) := [(21, 18, 12, 31)]
+
+theorem okL12_33 : rL12_33.all rowOK = true := by decide +kernel
+
+def rL12_34 : List (Nat × Nat × Nat × Nat) := [(21, 18, 13, 31)]
+
+theorem okL12_34 : rL12_34.all rowOK = true := by decide +kernel
+
+def rL12_35 : List (Nat × Nat × Nat × Nat) := [(21, 18, 14, 31)]
+
+theorem okL12_35 : rL12_35.all rowOK = true := by decide +kernel
+
+def rL12_36 : List (Nat × Nat × Nat × Nat) := [(21, 18, 15, 32)]
+
+theorem okL12_36 : rL12_36.all rowOK = true := by decide +kernel
+
+def rL12_37 : List (Nat × Nat × Nat × Nat) := [(21, 18, 16, 32)]
+
+theorem okL12_37 : rL12_37.all rowOK = true := by decide +kernel
+
+def rL12_38 : List (Nat × Nat × Nat × Nat) := [(21, 18, 17, 33)]
+
+theorem okL12_38 : rL12_38.all rowOK = true := by decide +kernel
+
+def rL12_39 : List (Nat × Nat × Nat × Nat) := [(21, 18, 18, 33)]
+
+theorem okL12_39 : rL12_39.all rowOK = true := by decide +kernel
+
+def rL12_40 : List (Nat × Nat × Nat × Nat) := [(21, 19, 0, 29)]
+
+theorem okL12_40 : rL12_40.all rowOK = true := by decide +kernel
+
+def rL12_41 : List (Nat × Nat × Nat × Nat) := [(21, 19, 1, 29)]
+
+theorem okL12_41 : rL12_41.all rowOK = true := by decide +kernel
+
+def rL12_42 : List (Nat × Nat × Nat × Nat) := [(21, 19, 2, 29)]
+
+theorem okL12_42 : rL12_42.all rowOK = true := by decide +kernel
+
+def rL12_43 : List (Nat × Nat × Nat × Nat) := [(21, 19, 3, 29)]
+
+theorem okL12_43 : rL12_43.all rowOK = true := by decide +kernel
+
+def rL12_44 : List (Nat × Nat × Nat × Nat) := [(21, 19, 4, 29)]
+
+theorem okL12_44 : rL12_44.all rowOK = true := by decide +kernel
+
+def rL12_45 : List (Nat × Nat × Nat × Nat) := [(21, 19, 5, 29)]
+
+theorem okL12_45 : rL12_45.all rowOK = true := by decide +kernel
+
+def rL12_46 : List (Nat × Nat × Nat × Nat) := [(21, 19, 6, 29)]
+
+theorem okL12_46 : rL12_46.all rowOK = true := by decide +kernel
+
+def rL12_47 : List (Nat × Nat × Nat × Nat) := [(21, 19, 7, 30)]
+
+theorem okL12_47 : rL12_47.all rowOK = true := by decide +kernel
+
+def rL12_48 : List (Nat × Nat × Nat × Nat) := [(21, 19, 8, 30)]
+
+theorem okL12_48 : rL12_48.all rowOK = true := by decide +kernel
+
+def rL12_49 : List (Nat × Nat × Nat × Nat) := [(21, 19, 9, 30)]
+
+theorem okL12_49 : rL12_49.all rowOK = true := by decide +kernel
+
+def rL12_50 : List (Nat × Nat × Nat × Nat) := [(21, 19, 10, 31)]
+
+theorem okL12_50 : rL12_50.all rowOK = true := by decide +kernel
+
+def rL12_51 : List (Nat × Nat × Nat × Nat) := [(21, 19, 11, 31)]
+
+theorem okL12_51 : rL12_51.all rowOK = true := by decide +kernel
+
+def rL12_52 : List (Nat × Nat × Nat × Nat) := [(21, 19, 12, 31)]
+
+theorem okL12_52 : rL12_52.all rowOK = true := by decide +kernel
+
+def rL12_53 : List (Nat × Nat × Nat × Nat) := [(21, 19, 13, 32)]
+
+theorem okL12_53 : rL12_53.all rowOK = true := by decide +kernel
+
+def rL12_54 : List (Nat × Nat × Nat × Nat) := [(21, 19, 14, 32)]
+
+theorem okL12_54 : rL12_54.all rowOK = true := by decide +kernel
+
+def rL12_55 : List (Nat × Nat × Nat × Nat) := [(21, 19, 15, 33)]
+
+theorem okL12_55 : rL12_55.all rowOK = true := by decide +kernel
+
+def rL12_56 : List (Nat × Nat × Nat × Nat) := [(21, 19, 16, 33)]
+
+theorem okL12_56 : rL12_56.all rowOK = true := by decide +kernel
+
+def rL12_57 : List (Nat × Nat × Nat × Nat) := [(21, 19, 17, 34)]
+
+theorem okL12_57 : rL12_57.all rowOK = true := by decide +kernel
+
+def rL12_58 : List (Nat × Nat × Nat × Nat) := [(21, 19, 18, 34)]
+
+theorem okL12_58 : rL12_58.all rowOK = true := by decide +kernel
+
+def rL12_59 : List (Nat × Nat × Nat × Nat) := [(21, 19, 19, 35)]
+
+theorem okL12_59 : rL12_59.all rowOK = true := by decide +kernel
+
+def rL12_60 : List (Nat × Nat × Nat × Nat) := [(21, 20, 0, 29)]
+
+theorem okL12_60 : rL12_60.all rowOK = true := by decide +kernel
+
+def rL12_61 : List (Nat × Nat × Nat × Nat) := [(21, 20, 1, 30)]
+
+theorem okL12_61 : rL12_61.all rowOK = true := by decide +kernel
+
+def rL12_62 : List (Nat × Nat × Nat × Nat) := [(21, 20, 2, 30)]
+
+theorem okL12_62 : rL12_62.all rowOK = true := by decide +kernel
+
+def rL12_63 : List (Nat × Nat × Nat × Nat) := [(21, 20, 3, 30)]
+
+theorem okL12_63 : rL12_63.all rowOK = true := by decide +kernel
+
+def rL12_64 : List (Nat × Nat × Nat × Nat) := [(21, 20, 4, 30)]
+
+theorem okL12_64 : rL12_64.all rowOK = true := by decide +kernel
+
+def rL12_65 : List (Nat × Nat × Nat × Nat) := [(21, 20, 5, 30)]
+
+theorem okL12_65 : rL12_65.all rowOK = true := by decide +kernel
+
+def rL12_66 : List (Nat × Nat × Nat × Nat) := [(21, 20, 6, 30)]
+
+theorem okL12_66 : rL12_66.all rowOK = true := by decide +kernel
+
+def rL12_67 : List (Nat × Nat × Nat × Nat) := [(21, 20, 7, 30)]
+
+theorem okL12_67 : rL12_67.all rowOK = true := by decide +kernel
+
+def rL12_68 : List (Nat × Nat × Nat × Nat) := [(21, 20, 8, 31)]
+
+theorem okL12_68 : rL12_68.all rowOK = true := by decide +kernel
+
+def rL12_69 : List (Nat × Nat × Nat × Nat) := [(21, 20, 9, 31)]
+
+theorem okL12_69 : rL12_69.all rowOK = true := by decide +kernel
+
+def rL12_70 : List (Nat × Nat × Nat × Nat) := [(21, 20, 10, 31)]
+
+theorem okL12_70 : rL12_70.all rowOK = true := by decide +kernel
+
+def rL12_71 : List (Nat × Nat × Nat × Nat) := [(21, 20, 11, 32)]
+
+theorem okL12_71 : rL12_71.all rowOK = true := by decide +kernel
+
+def rL12_72 : List (Nat × Nat × Nat × Nat) := [(21, 20, 12, 32)]
+
+theorem okL12_72 : rL12_72.all rowOK = true := by decide +kernel
+
+def rL12_73 : List (Nat × Nat × Nat × Nat) := [(21, 20, 13, 32)]
+
+theorem okL12_73 : rL12_73.all rowOK = true := by decide +kernel
+
+def rL12_74 : List (Nat × Nat × Nat × Nat) := [(21, 20, 14, 33)]
+
+theorem okL12_74 : rL12_74.all rowOK = true := by decide +kernel
+
+def rL12_75 : List (Nat × Nat × Nat × Nat) := [(21, 20, 15, 33)]
+
+theorem okL12_75 : rL12_75.all rowOK = true := by decide +kernel
+
+def rL12_76 : List (Nat × Nat × Nat × Nat) := [(21, 20, 16, 34)]
+
+theorem okL12_76 : rL12_76.all rowOK = true := by decide +kernel
+
+def rL12_77 : List (Nat × Nat × Nat × Nat) := [(21, 20, 17, 34)]
+
+theorem okL12_77 : rL12_77.all rowOK = true := by decide +kernel
+
+def rL12_78 : List (Nat × Nat × Nat × Nat) := [(21, 20, 18, 35)]
+
+theorem okL12_78 : rL12_78.all rowOK = true := by decide +kernel
+
+def rL12_79 : List (Nat × Nat × Nat × Nat) := [(21, 20, 19, 35)]
+
+theorem okL12_79 : rL12_79.all rowOK = true := by decide +kernel
+
+def rL12_80 : List (Nat × Nat × Nat × Nat) := [(21, 20, 20, 36)]
+
+theorem okL12_80 : rL12_80.all rowOK = true := by decide +kernel
+
+def rL12_81 : List (Nat × Nat × Nat × Nat) := [(21, 21, 0, 30)]
+
+theorem okL12_81 : rL12_81.all rowOK = true := by decide +kernel
+
+def rL12_82 : List (Nat × Nat × Nat × Nat) := [(21, 21, 1, 30)]
+
+theorem okL12_82 : rL12_82.all rowOK = true := by decide +kernel
+
+def rL12_83 : List (Nat × Nat × Nat × Nat) := [(21, 21, 2, 30)]
+
+theorem okL12_83 : rL12_83.all rowOK = true := by decide +kernel
+
+def rL12_84 : List (Nat × Nat × Nat × Nat) := [(21, 21, 3, 30)]
+
+theorem okL12_84 : rL12_84.all rowOK = true := by decide +kernel
+
+def rL12_85 : List (Nat × Nat × Nat × Nat) := [(21, 21, 4, 30)]
+
+theorem okL12_85 : rL12_85.all rowOK = true := by decide +kernel
+
+def rL12_86 : List (Nat × Nat × Nat × Nat) := [(21, 21, 5, 31)]
+
+theorem okL12_86 : rL12_86.all rowOK = true := by decide +kernel
+
+def rL12_87 : List (Nat × Nat × Nat × Nat) := [(21, 21, 6, 31)]
+
+theorem okL12_87 : rL12_87.all rowOK = true := by decide +kernel
+
+def rL12_88 : List (Nat × Nat × Nat × Nat) := [(21, 21, 7, 31)]
+
+theorem okL12_88 : rL12_88.all rowOK = true := by decide +kernel
+
+def rL12_89 : List (Nat × Nat × Nat × Nat) := [(21, 21, 8, 31)]
+
+theorem okL12_89 : rL12_89.all rowOK = true := by decide +kernel
+
+def rL12_90 : List (Nat × Nat × Nat × Nat) := [(21, 21, 9, 32)]
+
+theorem okL12_90 : rL12_90.all rowOK = true := by decide +kernel
+
+def rL12_91 : List (Nat × Nat × Nat × Nat) := [(21, 21, 10, 32)]
+
+theorem okL12_91 : rL12_91.all rowOK = true := by decide +kernel
+
+def rL12_92 : List (Nat × Nat × Nat × Nat) := [(21, 21, 11, 32)]
+
+theorem okL12_92 : rL12_92.all rowOK = true := by decide +kernel
+
+def rL12_93 : List (Nat × Nat × Nat × Nat) := [(21, 21, 12, 33)]
+
+theorem okL12_93 : rL12_93.all rowOK = true := by decide +kernel
+
+def rL12_94 : List (Nat × Nat × Nat × Nat) := [(21, 21, 13, 33)]
+
+theorem okL12_94 : rL12_94.all rowOK = true := by decide +kernel
+
+def rL12_95 : List (Nat × Nat × Nat × Nat) := [(21, 21, 14, 33)]
+
+theorem okL12_95 : rL12_95.all rowOK = true := by decide +kernel
+
+def rL12_96 : List (Nat × Nat × Nat × Nat) := [(21, 21, 15, 34)]
+
+theorem okL12_96 : rL12_96.all rowOK = true := by decide +kernel
+
+def rL12_97 : List (Nat × Nat × Nat × Nat) := [(21, 21, 16, 34)]
+
+theorem okL12_97 : rL12_97.all rowOK = true := by decide +kernel
+
+def rL12_98 : List (Nat × Nat × Nat × Nat) := [(21, 21, 17, 35)]
+
+theorem okL12_98 : rL12_98.all rowOK = true := by decide +kernel
+
+def rL12_99 : List (Nat × Nat × Nat × Nat) := [(21, 21, 18, 35)]
+
+theorem okL12_99 : rL12_99.all rowOK = true := by decide +kernel
+
+def rL12_100 : List (Nat × Nat × Nat × Nat) := [(21, 21, 19, 36)]
+
+theorem okL12_100 : rL12_100.all rowOK = true := by decide +kernel
+
+def rL12_101 : List (Nat × Nat × Nat × Nat) := [(21, 21, 20, 36)]
+
+theorem okL12_101 : rL12_101.all rowOK = true := by decide +kernel
+
+def rL12_102 : List (Nat × Nat × Nat × Nat) := [(21, 21, 21, 37)]
+
+theorem okL12_102 : rL12_102.all rowOK = true := by decide +kernel
+
+def rL12_103 : List (Nat × Nat × Nat × Nat) := [(22, 0, 0, 22)]
+
+theorem okL12_103 : rL12_103.all rowOK = true := by decide +kernel
+
+def rL12_104 : List (Nat × Nat × Nat × Nat) := [(22, 1, 0, 23)]
+
+theorem okL12_104 : rL12_104.all rowOK = true := by decide +kernel
+
+def rL12_105 : List (Nat × Nat × Nat × Nat) := [(22, 1, 1, 23)]
+
+theorem okL12_105 : rL12_105.all rowOK = true := by decide +kernel
+
+def rL12_106 : List (Nat × Nat × Nat × Nat) := [(22, 2, 0, 23)]
+
+theorem okL12_106 : rL12_106.all rowOK = true := by decide +kernel
+
+def rL12_107 : List (Nat × Nat × Nat × Nat) := [(22, 2, 1, 23)]
+
+theorem okL12_107 : rL12_107.all rowOK = true := by decide +kernel
+
+def rL12_108 : List (Nat × Nat × Nat × Nat) := [(22, 2, 2, 23)]
+
+theorem okL12_108 : rL12_108.all rowOK = true := by decide +kernel
+
+def rL12_109 : List (Nat × Nat × Nat × Nat) := [(22, 3, 0, 23)]
+
+theorem okL12_109 : rL12_109.all rowOK = true := by decide +kernel
+
+def rL12_110 : List (Nat × Nat × Nat × Nat) := [(22, 3, 1, 23)]
+
+theorem okL12_110 : rL12_110.all rowOK = true := by decide +kernel
+
+def rL12_111 : List (Nat × Nat × Nat × Nat) := [(22, 3, 2, 23)]
+
+theorem okL12_111 : rL12_111.all rowOK = true := by decide +kernel
+
+def rL12_112 : List (Nat × Nat × Nat × Nat) := [(22, 3, 3, 23)]
+
+theorem okL12_112 : rL12_112.all rowOK = true := by decide +kernel
+
+def rL12_113 : List (Nat × Nat × Nat × Nat) := [(22, 4, 0, 23)]
+
+theorem okL12_113 : rL12_113.all rowOK = true := by decide +kernel
+
+def rL12_114 : List (Nat × Nat × Nat × Nat) := [(22, 4, 1, 23)]
+
+theorem okL12_114 : rL12_114.all rowOK = true := by decide +kernel
+
+def rL12_115 : List (Nat × Nat × Nat × Nat) := [(22, 4, 2, 23)]
+
+theorem okL12_115 : rL12_115.all rowOK = true := by decide +kernel
+
+def rL12_116 : List (Nat × Nat × Nat × Nat) := [(22, 4, 3, 23)]
+
+theorem okL12_116 : rL12_116.all rowOK = true := by decide +kernel
+
+def rL12_117 : List (Nat × Nat × Nat × Nat) := [(22, 4, 4, 23)]
+
+theorem okL12_117 : rL12_117.all rowOK = true := by decide +kernel
+
+def rL12_118 : List (Nat × Nat × Nat × Nat) := [(22, 5, 0, 23)]
+
+theorem okL12_118 : rL12_118.all rowOK = true := by decide +kernel
+
+def rL12_119 : List (Nat × Nat × Nat × Nat) := [(22, 5, 1, 23)]
+
+theorem okL12_119 : rL12_119.all rowOK = true := by decide +kernel
+
+def rL12_120 : List (Nat × Nat × Nat × Nat) := [(22, 5, 2, 23)]
+
+theorem okL12_120 : rL12_120.all rowOK = true := by decide +kernel
+
+def rL12_121 : List (Nat × Nat × Nat × Nat) := [(22, 5, 3, 23)]
+
+theorem okL12_121 : rL12_121.all rowOK = true := by decide +kernel
+
+def rL12_122 : List (Nat × Nat × Nat × Nat) := [(22, 5, 4, 23)]
+
+theorem okL12_122 : rL12_122.all rowOK = true := by decide +kernel
+
+def rL12_123 : List (Nat × Nat × Nat × Nat) := [(22, 5, 5, 24)]
+
+theorem okL12_123 : rL12_123.all rowOK = true := by decide +kernel
+
+def rL12_124 : List (Nat × Nat × Nat × Nat) := [(22, 6, 0, 23)]
+
+theorem okL12_124 : rL12_124.all rowOK = true := by decide +kernel
+
+def rL12_125 : List (Nat × Nat × Nat × Nat) := [(22, 6, 1, 23)]
+
+theorem okL12_125 : rL12_125.all rowOK = true := by decide +kernel
+
+def rL12_126 : List (Nat × Nat × Nat × Nat) := [(22, 6, 2, 23)]
+
+theorem okL12_126 : rL12_126.all rowOK = true := by decide +kernel
+
+def rL12_127 : List (Nat × Nat × Nat × Nat) := [(22, 6, 3, 23)]
+
+theorem okL12_127 : rL12_127.all rowOK = true := by decide +kernel
+
+def rL12_128 : List (Nat × Nat × Nat × Nat) := [(22, 6, 4, 24)]
+
+theorem okL12_128 : rL12_128.all rowOK = true := by decide +kernel
+
+def rL12_129 : List (Nat × Nat × Nat × Nat) := [(22, 6, 5, 24)]
+
+theorem okL12_129 : rL12_129.all rowOK = true := by decide +kernel
+
+def rL12_130 : List (Nat × Nat × Nat × Nat) := [(22, 6, 6, 24)]
+
+theorem okL12_130 : rL12_130.all rowOK = true := by decide +kernel
+
+def rL12_131 : List (Nat × Nat × Nat × Nat) := [(22, 7, 0, 24)]
+
+theorem okL12_131 : rL12_131.all rowOK = true := by decide +kernel
+
+def rL12_132 : List (Nat × Nat × Nat × Nat) := [(22, 7, 1, 24)]
+
+theorem okL12_132 : rL12_132.all rowOK = true := by decide +kernel
+
+def rL12_133 : List (Nat × Nat × Nat × Nat) := [(22, 7, 2, 24)]
+
+theorem okL12_133 : rL12_133.all rowOK = true := by decide +kernel
+
+def rL12_134 : List (Nat × Nat × Nat × Nat) := [(22, 7, 3, 24)]
+
+theorem okL12_134 : rL12_134.all rowOK = true := by decide +kernel
+
+def rL12_135 : List (Nat × Nat × Nat × Nat) := [(22, 7, 4, 24)]
+
+theorem okL12_135 : rL12_135.all rowOK = true := by decide +kernel
+
+def rL12_136 : List (Nat × Nat × Nat × Nat) := [(22, 7, 5, 24)]
+
+theorem okL12_136 : rL12_136.all rowOK = true := by decide +kernel
+
+def rL12_137 : List (Nat × Nat × Nat × Nat) := [(22, 7, 6, 24)]
+
+theorem okL12_137 : rL12_137.all rowOK = true := by decide +kernel
+
+def rL12_138 : List (Nat × Nat × Nat × Nat) := [(22, 7, 7, 25)]
+
+theorem okL12_138 : rL12_138.all rowOK = true := by decide +kernel
+
+def rL12_139 : List (Nat × Nat × Nat × Nat) := [(22, 8, 0, 24)]
+
+theorem okL12_139 : rL12_139.all rowOK = true := by decide +kernel
+
+def rL12_140 : List (Nat × Nat × Nat × Nat) := [(22, 8, 1, 24)]
+
+theorem okL12_140 : rL12_140.all rowOK = true := by decide +kernel
+
+def rL12_141 : List (Nat × Nat × Nat × Nat) := [(22, 8, 2, 24)]
+
+theorem okL12_141 : rL12_141.all rowOK = true := by decide +kernel
+
+def rL12_142 : List (Nat × Nat × Nat × Nat) := [(22, 8, 3, 24)]
+
+theorem okL12_142 : rL12_142.all rowOK = true := by decide +kernel
+
+def rL12_143 : List (Nat × Nat × Nat × Nat) := [(22, 8, 4, 24)]
+
+theorem okL12_143 : rL12_143.all rowOK = true := by decide +kernel
+
+def rL12_144 : List (Nat × Nat × Nat × Nat) := [(22, 8, 5, 24)]
+
+theorem okL12_144 : rL12_144.all rowOK = true := by decide +kernel
+
+def rL12_145 : List (Nat × Nat × Nat × Nat) := [(22, 8, 6, 25)]
+
+theorem okL12_145 : rL12_145.all rowOK = true := by decide +kernel
+
+def rL12_146 : List (Nat × Nat × Nat × Nat) := [(22, 8, 7, 25)]
+
+theorem okL12_146 : rL12_146.all rowOK = true := by decide +kernel
+
+def rL12_147 : List (Nat × Nat × Nat × Nat) := [(22, 8, 8, 25)]
+
+theorem okL12_147 : rL12_147.all rowOK = true := by decide +kernel
+
+def rL12_148 : List (Nat × Nat × Nat × Nat) := [(22, 9, 0, 24)]
+
+theorem okL12_148 : rL12_148.all rowOK = true := by decide +kernel
+
+def rL12_149 : List (Nat × Nat × Nat × Nat) := [(22, 9, 1, 24)]
+
+theorem okL12_149 : rL12_149.all rowOK = true := by decide +kernel
+
+def rL12_150 : List (Nat × Nat × Nat × Nat) := [(22, 9, 2, 24)]
+
+theorem okL12_150 : rL12_150.all rowOK = true := by decide +kernel
+
+def rL12_151 : List (Nat × Nat × Nat × Nat) := [(22, 9, 3, 24)]
+
+theorem okL12_151 : rL12_151.all rowOK = true := by decide +kernel
+
+def rL12_152 : List (Nat × Nat × Nat × Nat) := [(22, 9, 4, 25)]
+
+theorem okL12_152 : rL12_152.all rowOK = true := by decide +kernel
+
+def rL12_153 : List (Nat × Nat × Nat × Nat) := [(22, 9, 5, 25)]
+
+theorem okL12_153 : rL12_153.all rowOK = true := by decide +kernel
+
+def rL12_154 : List (Nat × Nat × Nat × Nat) := [(22, 9, 6, 25)]
+
+theorem okL12_154 : rL12_154.all rowOK = true := by decide +kernel
+
+def rL12_155 : List (Nat × Nat × Nat × Nat) := [(22, 9, 7, 25)]
+
+theorem okL12_155 : rL12_155.all rowOK = true := by decide +kernel
+
+def rL12_156 : List (Nat × Nat × Nat × Nat) := [(22, 9, 8, 26)]
+
+theorem okL12_156 : rL12_156.all rowOK = true := by decide +kernel
+
+def rL12_157 : List (Nat × Nat × Nat × Nat) := [(22, 9, 9, 26)]
+
+theorem okL12_157 : rL12_157.all rowOK = true := by decide +kernel
+
+def rL12_158 : List (Nat × Nat × Nat × Nat) := [(22, 10, 0, 25)]
+
+theorem okL12_158 : rL12_158.all rowOK = true := by decide +kernel
+
+def rL12_159 : List (Nat × Nat × Nat × Nat) := [(22, 10, 1, 25)]
+
+theorem okL12_159 : rL12_159.all rowOK = true := by decide +kernel
+
+def rM12 : List (Nat × Nat × Nat × Nat) := rL12_0 ++ (rL12_1 ++ (rL12_2 ++ (rL12_3 ++ (rL12_4 ++ (rL12_5 ++ (rL12_6 ++ (rL12_7 ++ (rL12_8 ++ (rL12_9 ++ (rL12_10 ++ (rL12_11 ++ (rL12_12 ++ (rL12_13 ++ (rL12_14 ++ (rL12_15 ++ (rL12_16 ++ (rL12_17 ++ (rL12_18 ++ (rL12_19 ++ (rL12_20 ++ (rL12_21 ++ (rL12_22 ++ (rL12_23 ++ (rL12_24 ++ (rL12_25 ++ (rL12_26 ++ (rL12_27 ++ (rL12_28 ++ (rL12_29 ++ (rL12_30 ++ (rL12_31 ++ (rL12_32 ++ (rL12_33 ++ (rL12_34 ++ (rL12_35 ++ (rL12_36 ++ (rL12_37 ++ (rL12_38 ++ (rL12_39 ++ (rL12_40 ++ (rL12_41 ++ (rL12_42 ++ (rL12_43 ++ (rL12_44 ++ (rL12_45 ++ (rL12_46 ++ (rL12_47 ++ (rL12_48 ++ (rL12_49 ++ (rL12_50 ++ (rL12_51 ++ (rL12_52 ++ (rL12_53 ++ (rL12_54 ++ (rL12_55 ++ (rL12_56 ++ (rL12_57 ++ (rL12_58 ++ (rL12_59 ++ (rL12_60 ++ (rL12_61 ++ (rL12_62 ++ (rL12_63 ++ (rL12_64 ++ (rL12_65 ++ (rL12_66 ++ (rL12_67 ++ (rL12_68 ++ (rL12_69 ++ (rL12_70 ++ (rL12_71 ++ (rL12_72 ++ (rL12_73 ++ (rL12_74 ++ (rL12_75 ++ (rL12_76 ++ (rL12_77 ++ (rL12_78 ++ (rL12_79 ++ (rL12_80 ++ (rL12_81 ++ (rL12_82 ++ (rL12_83 ++ (rL12_84 ++ (rL12_85 ++ (rL12_86 ++ (rL12_87 ++ (rL12_88 ++ (rL12_89 ++ (rL12_90 ++ (rL12_91 ++ (rL12_92 ++ (rL12_93 ++ (rL12_94 ++ (rL12_95 ++ (rL12_96 ++ (rL12_97 ++ (rL12_98 ++ (rL12_99 ++ (rL12_100 ++ (rL12_101 ++ (rL12_102 ++ (rL12_103 ++ (rL12_104 ++ (rL12_105 ++ (rL12_106 ++ (rL12_107 ++ (rL12_108 ++ (rL12_109 ++ (rL12_110 ++ (rL12_111 ++ (rL12_112 ++ (rL12_113 ++ (rL12_114 ++ (rL12_115 ++ (rL12_116 ++ (rL12_117 ++ (rL12_118 ++ (rL12_119 ++ (rL12_120 ++ (rL12_121 ++ (rL12_122 ++ (rL12_123 ++ (rL12_124 ++ (rL12_125 ++ (rL12_126 ++ (rL12_127 ++ (rL12_128 ++ (rL12_129 ++ (rL12_130 ++ (rL12_131 ++ (rL12_132 ++ (rL12_133 ++ (rL12_134 ++ (rL12_135 ++ (rL12_136 ++ (rL12_137 ++ (rL12_138 ++ (rL12_139 ++ (rL12_140 ++ (rL12_141 ++ (rL12_142 ++ (rL12_143 ++ (rL12_144 ++ (rL12_145 ++ (rL12_146 ++ (rL12_147 ++ (rL12_148 ++ (rL12_149 ++ (rL12_150 ++ (rL12_151 ++ (rL12_152 ++ (rL12_153 ++ (rL12_154 ++ (rL12_155 ++ (rL12_156 ++ (rL12_157 ++ (rL12_158 ++ (rL12_159)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 
 theorem okM12 : rM12.all rowOK = true := by
-  simp only [rM12, List.all_append, okL12_0, okL12_1, okL12_2, okL12_3, okL12_4, okL12_5, okL12_6, okL12_7, okL12_8, okL12_9, okL12_10, okL12_11, okL12_12, okL12_13, okL12_14, okL12_15, okL12_16, okL12_17, okL12_18, okL12_19, Bool.and_self]
+  simp only [rM12, List.all_append, okL12_0, okL12_1, okL12_2, okL12_3, okL12_4, okL12_5, okL12_6, okL12_7, okL12_8, okL12_9, okL12_10, okL12_11, okL12_12, okL12_13, okL12_14, okL12_15, okL12_16, okL12_17, okL12_18, okL12_19, okL12_20, okL12_21, okL12_22, okL12_23, okL12_24, okL12_25, okL12_26, okL12_27, okL12_28, okL12_29, okL12_30, okL12_31, okL12_32, okL12_33, okL12_34, okL12_35, okL12_36, okL12_37, okL12_38, okL12_39, okL12_40, okL12_41, okL12_42, okL12_43, okL12_44, okL12_45, okL12_46, okL12_47, okL12_48, okL12_49, okL12_50, okL12_51, okL12_52, okL12_53, okL12_54, okL12_55, okL12_56, okL12_57, okL12_58, okL12_59, okL12_60, okL12_61, okL12_62, okL12_63, okL12_64, okL12_65, okL12_66, okL12_67, okL12_68, okL12_69, okL12_70, okL12_71, okL12_72, okL12_73, okL12_74, okL12_75, okL12_76, okL12_77, okL12_78, okL12_79, okL12_80, okL12_81, okL12_82, okL12_83, okL12_84, okL12_85, okL12_86, okL12_87, okL12_88, okL12_89, okL12_90, okL12_91, okL12_92, okL12_93, okL12_94, okL12_95, okL12_96, okL12_97, okL12_98, okL12_99, okL12_100, okL12_101, okL12_102, okL12_103, okL12_104, okL12_105, okL12_106, okL12_107, okL12_108, okL12_109, okL12_110, okL12_111, okL12_112, okL12_113, okL12_114, okL12_115, okL12_116, okL12_117, okL12_118, okL12_119, okL12_120, okL12_121, okL12_122, okL12_123, okL12_124, okL12_125, okL12_126, okL12_127, okL12_128, okL12_129, okL12_130, okL12_131, okL12_132, okL12_133, okL12_134, okL12_135, okL12_136, okL12_137, okL12_138, okL12_139, okL12_140, okL12_141, okL12_142, okL12_143, okL12_144, okL12_145, okL12_146, okL12_147, okL12_148, okL12_149, okL12_150, okL12_151, okL12_152, okL12_153, okL12_154, okL12_155, okL12_156, okL12_157, okL12_158, okL12_159, Bool.and_self]
 
 
 end OVNS.Row

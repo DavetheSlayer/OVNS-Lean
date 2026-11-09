@@ -1,5 +1,17 @@
 import OddViscousNS.Closed.Row.RowMatrix
 import OddViscousNS.Closed.Row.Data.Tabs
+import OddViscousNS.Closed.Row.Data.HHc10a
+import OddViscousNS.Closed.Row.Data.HHc10b
+import OddViscousNS.Closed.Row.Data.HHc20a
+import OddViscousNS.Closed.Row.Data.HHc20b
+import OddViscousNS.Closed.Row.Data.HHc30a
+import OddViscousNS.Closed.Row.Data.HHc30b
+import OddViscousNS.Closed.Row.Data.HHc11a
+import OddViscousNS.Closed.Row.Data.HHc11b
+import OddViscousNS.Closed.Row.Data.HHc31a
+import OddViscousNS.Closed.Row.Data.HHc31b
+import OddViscousNS.Closed.Row.Data.HHc22a
+import OddViscousNS.Closed.Row.Data.HHc22b
 import OddViscousNS.Closed.Row.Data.Scal
 import OddViscousNS.Closed.Row.Data.Norm
 
@@ -19,14 +31,23 @@ set_option linter.constructorNameAsVariable false
 
 lemma ball_of {i F s} (h : KerR i F s) : Ball 6084 F := h.ball
 
+lemma lt64_of {F : ℕ → ℕ} {N : ℕ} (h : ∀ A, F A ≤ N) (hN : N < 2 ^ 64) : ∀ A, F A < 2 ^ 64 :=
+  fun A => (h A).trans_lt hN
+
 /-- The six kernels of the tables. -/
 theorem tabsOK : TabsOK TT where
   k10 := kerOK_of HH10a_ok HH10b_ok norm10 (ball_of kl10) (ball_of kr10)
+    (lt64_of (F1_le _ _) (by norm_num)) (lt64_of (F0_le _ _) (by norm_num))
   k20 := kerOK_of HH20a_ok HH20b_ok norm20 (ball_of kl20) (ball_of kr20)
+    (lt64_of (F2_le _ _) (by norm_num)) (lt64_of (F0_le _ _) (by norm_num))
   k30 := kerOK_of HH30a_ok HH30b_ok norm30 (ball_of kl30) (ball_of kr30)
+    (lt64_of (F3_le _ _) (by norm_num)) (lt64_of (F0_le _ _) (by norm_num))
   k11 := kerOK_of HH11a_ok HH11b_ok norm11 (ball_of kl11) (ball_of kr11)
+    (lt64_of (F1_le _ _) (by norm_num)) (lt64_of (F1_le _ _) (by norm_num))
   k31 := kerOK_of HH31a_ok HH31b_ok norm31 (ball_of kl31) (ball_of kr31)
+    (lt64_of (F3_le _ _) (by norm_num)) (lt64_of (F1_le _ _) (by norm_num))
   k22 := kerOK_of HH22a_ok HH22b_ok norm22 (ball_of kl22) (ball_of kr22)
+    (lt64_of (F2_le _ _) (by norm_num)) (lt64_of (F2_le _ _) (by norm_num))
 
 /-- The real form of an error check. -/
 lemma err_real {F G : ℕ → ℕ} {fg Eb : ℕ} (h : errChk F G fg Eb = true) {s : ℝ} {E : ℚ}

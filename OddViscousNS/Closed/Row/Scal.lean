@@ -22,18 +22,42 @@ lemma FA_ball : Ball 16384 FA := fun a h => by
   rw [cut_eq]
   simp [show ¬ a ≤ 16384 by omega]
 
+/-- The weights of the band are far below a slot: `FA n ≤ ⌈2²¹ · 9000 / (4·10¹⁰)⌉`. -/
+lemma FA_lt (A : ℕ) : FA A < 2 ^ 50 := by
+  unfold FA
+  rw [cut_eq]
+  split_ifs with h
+  · rw [lit_eq]
+    show (188743680000000000 + ((200000 + root A) * (200000 + root A) * A - 1)) /
+      ((200000 + root A) * (200000 + root A) * A) < 2 ^ 50
+    have hd : 40000000000 ≤ (200000 + root A) * (200000 + root A) * A := by
+      have h1 : 200000 * 200000 ≤ (200000 + root A) * (200000 + root A) :=
+        Nat.mul_le_mul (by omega) (by omega)
+      have h2 : 1 ≤ A := h.1
+      calc 40000000000 = 200000 * 200000 * 1 := by norm_num
+        _ ≤ _ := Nat.mul_le_mul h1 h2
+    rw [Nat.div_lt_iff_lt_mul (by omega)]
+    norm_num
+    omega
+  · positivity
+
 /-- Specification of the block arrays. -/
 lemma arrS_spec (nz z0 : ℕ) (hnz : nz < 2 ^ 7) :
     arrS nz z0 = ∑ q ∈ Bl 257 nz, FA (nsq (ptB 128 z0 q)) * (2 ^ 50) ^ idxP 357 q := by
-  have hb : 257 < 2 ^ 9 := by norm_num
-  have := arr_spec (w := 50) (P := 357) (wP := 17850) (wPP := 6372450) (R := 128) (n := 257)
-    (b := 9) (nz := nz) (z0 := z0) (bz := 7) (by norm_num) (by norm_num) hb hnz
-    (fun _ => row0 50 128 16384 257 9 FA) (fun _ s i => FA (s + sq 128 i))
-    (fun _ s => row0_spec FA_ball hb s)
+  have := arr_specT (w := 50) (P := 357) (wP := 17850) (wPP := 6372450) (R := 128) (n := 257)
+    (b := 9) (nz := nz) (z0 := z0) (bz := 7) (by norm_num) (by norm_num) (by norm_num) hnz
+    (fun _ => rowWS 50 257 16384 prS) (fun _ s i => FA (s + sq 128 i) * 1)
+    (fun _ _ s => by
+      have h := rowW_spec (w := 50) (n := 257) (R := 128) (R2 := 16384) (b := 9) (bA := 15)
+        (F := FA) (wt := fun _ => 1) (by norm_num) (by norm_num) (by norm_num) FA_ball
+        (fun A _ t _ => by simpa using FA_lt A) s
+      unfold rowWS prS
+      rw [h]
+      rfl)
   unfold arrS
   rw [this]
   refine sum_congr rfl fun q _ => ?_
-  rw [nsq_ptB']
+  rw [nsq_ptB', mul_one]
   rfl
 
 /-- The image of a block. -/
@@ -147,6 +171,21 @@ lemma scal_slot {nz nz' z0 z0' c x y z : ℕ} (hN : ∑ p ∈ boxM 128, FA (nsq 
     rw [pow_two ((2 : ℕ) ^ 50)]
     exact Nat.mul_lt_mul'' (lt_of_le_of_lt h1 hN) (lt_of_le_of_lt h2 hN)
 
+/-- A layer read through a block of eight layers. -/
+lemma layer_eq (c N : Nat) :
+    layer c N = N / (2 ^ 6372450) ^ c % (2 ^ 6372450) ^ 1 := by
+  unfold layer
+  rw [lit_eq]
+  show winA 6372450 (c % 8) 1 (winA 6372450 (8 * (c / 8)) 8 N) = _
+  rw [winA_eq, winA_eq]
+  refine eq_of_dig (by positivity) (Nat.mod_lt _ (by positivity)) (Nat.mod_lt _ (by positivity))
+    fun i hi => ?_
+  have h8 : c % 8 < 8 := Nat.mod_lt _ (by norm_num)
+  rw [dig_window _ _ _ _ hi, dig_window _ _ _ _ (by omega), dig_window _ _ _ _ hi]
+  congr 1
+  have := Nat.div_add_mod c 8
+  omega
+
 /-- Reading a digit through the two windows. -/
 lemma rd_row {x y c N : ℕ} (hx : x < 100) (hy : y < 71) :
     rd 50 x (rowS y (layer c N)) = Dig (2 ^ 50) N (256 + x + 357 * (y + 256) + 127449 * c) := by
@@ -155,8 +194,8 @@ lemma rd_row {x y c N : ℕ} (hx : x < 100) (hy : y < 71) :
     congr 1
     omega
   rw [rd_eq]
-  unfold rowS layer
-  rw [win_eq, win_eq]
+  unfold rowS
+  rw [layer_eq, winA_eq]
   simp only [hX, Nat.add_eq, Nat.mul_eq, mul_one]
   rw [dig_window _ _ _ _ hx, dig_window _ _ _ _ (by omega)]
   congr 1
@@ -173,7 +212,6 @@ lemma scal_point {n1 n2 n3 n4 : ℕ} (h : allN (scalZ n1 n2 n3 n4) 58 = true) {x
             + Dig (2 ^ 50) n4 (256 + x + 357 * (y + 256) + 127449 * z)))) = true := by
   have h1 := allN_spec _ _ h z hz
   unfold scalZ at h1
-  simp only [litB_eq] at h1
   have h2 := allN_spec _ _ h1 y hy
   unfold scalY at h2
   rw [Nat.ble_eq_true_of_le hzy] at h2
@@ -415,7 +453,7 @@ theorem row_scal (hS : scalChk = true) (hN : normS = true) {x y z : ℕ} (hzy : 
   obtain ⟨hx, hy, hz⟩ := coords_band hzy hyx hC2
   have hN' := normS_spec hN
   unfold scalChk at hS
-  simp only [litB_eq, Nat.mul_eq] at hS
+  simp only [Nat.mul_eq] at hS
   have hp := scal_point hS hz hy hx hzy hyx hC1 hC2
   rw [conv_eq hN' hx hy hz, ← nsq_kN] at hp
   obtain ⟨cK, h1, h2, h3⟩ := scalTest_spec hp

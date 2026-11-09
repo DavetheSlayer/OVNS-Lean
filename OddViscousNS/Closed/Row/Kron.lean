@@ -155,5 +155,36 @@ lemma dig_window {X : ℕ} (N s n i : ℕ) (hi : i < n) :
     Dig X (N / X ^ s % X ^ n) i = Dig X N (s + i) := by
   rw [dig_mod _ _ _ hi, dig_div]
 
+
+lemma dig_succ (X N i : ℕ) : Dig X N (i + 1) = Dig X (N / X) i := by
+  unfold Dig; rw [pow_succ', ← Nat.div_div_eq_div_mul]
+
+/-- Two numbers below `X^n` with the same digits below `n` are equal. -/
+lemma eq_of_dig {X : ℕ} (hX : 0 < X) : ∀ {n a b : ℕ}, a < X ^ n → b < X ^ n →
+    (∀ i < n, Dig X a i = Dig X b i) → a = b
+  | 0, a, b, ha, hb, _ => by rw [pow_zero] at ha hb; omega
+  | n + 1, a, b, ha, hb, h => by
+    have h0 := h 0 (Nat.succ_pos n)
+    rw [dig_zero, dig_zero] at h0
+    have e : a / X = b / X := eq_of_dig hX
+      (by rw [Nat.div_lt_iff_lt_mul hX, ← pow_succ]; exact ha)
+      (by rw [Nat.div_lt_iff_lt_mul hX, ← pow_succ]; exact hb)
+      (fun i hi => by rw [← dig_succ, ← dig_succ]; exact h (i + 1) (by omega))
+    rw [← Nat.div_add_mod a X, ← Nat.div_add_mod b X, e, h0]
+
+/-- An expansion with digits below `X` is below `X^n`. -/
+lemma sum_lt_pow {X : ℕ} (n : ℕ) (d : ℕ → ℕ) (hd : ∀ i < n, d i < X) :
+    ∑ i ∈ range n, d i * X ^ i < X ^ n := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+    rw [sum_range_succ, pow_succ]
+    have h1 := ih (fun i hi => hd i (by omega))
+    have h2 : d n + 1 ≤ X := hd n (by omega)
+    calc ∑ i ∈ range n, d i * X ^ i + d n * X ^ n < X ^ n + d n * X ^ n := by omega
+      _ = (d n + 1) * X ^ n := by ring
+      _ ≤ X * X ^ n := Nat.mul_le_mul_right _ h2
+      _ = X ^ n * X := by ring
+
 end Row
 end OVNS

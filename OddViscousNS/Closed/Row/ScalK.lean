@@ -18,9 +18,12 @@ noncomputable def FA (n : Nat) : Nat :=
 /-- `∑_{0 < |p|² ≤ hi} ⌈2²¹ a(|p|²)⌉`. -/
 noncomputable def psiSum (hi : Nat) : Nat := rad128 (fun n => cut 0 hi n (FA n))
 
-/-- The right array of the band, `nz` layers from index `z0`. -/
+/-- The gathered product of the band (`rowW`). -/
+noncomputable def prS : Nat := prL 50 257 128 16384 9 15 FA (fun _ => 1)
+
+/-- The right array of the band, `nz` layers from index `z0`, from salted gathered rows. -/
 noncomputable def arrS (nz z0 : Nat) : Nat :=
-  arr 6372450 128 7 nz z0 (slice 17850 128 257 9 (fun _ => row0 50 128 16384 257 9 FA))
+  arr 6372450 128 7 nz z0 (sliceT 17850 128 257 9 (fun _ => rowWS 50 257 16384 prS))
 
 /-- The ceiling of `√C` for `1936 ≤ C ≤ 10000`, by bisection; the test re-checks `C ≤ cK²`. -/
 noncomputable def csq (C : Nat) : Nat :=
@@ -45,12 +48,13 @@ noncomputable def scalPt (r1 r2 r3 r4 y z x : Nat) : Bool :=
         true (Nat.ble 10000 C))
       (Bool.and (Nat.ble y x) (Nat.ble 1936 C)))
 
-/-- A layer of a product. -/
-noncomputable def layer (c N : Nat) : Nat := win 6372450 c 1 N
+/-- A layer of a product, read through its memoized block of eight layers. -/
+noncomputable def layer (c N : Nat) : Nat :=
+  lit (Nat.div c 8) (fun j => winA 6372450 (Nat.mod c 8) 1 (winA 6372450 (Nat.mul 8 j) 8 N))
 
 /-- The outputs of a row of a layer, `0 ≤ x < 100`. -/
 noncomputable def rowS (y L : Nat) : Nat :=
-  win 50 (Nat.add 256 (Nat.mul 357 (Nat.add y 256))) 100 L
+  winA 50 (Nat.add 256 (Nat.mul 357 (Nat.add y 256))) 100 L
 
 /-- One `y`: skipped when `y < z`. -/
 noncomputable def scalY (l1 l2 l3 l4 z y : Nat) : Bool :=
@@ -59,19 +63,15 @@ noncomputable def scalY (l1 l2 l3 l4 z y : Nat) : Bool :=
       litB (rowS y l4) (fun r4 => allN (scalPt r1 r2 r3 r4 y z) 100)))))
     (Nat.ble z y)
 
-/-- One `z`. -/
+/-- One `z`.  The layers are passed as expressions, not forced literals, so that the checkers'
+cache keys stay small. -/
 noncomputable def scalZ (n1 n2 n3 n4 z : Nat) : Bool :=
-  litB (layer z n1) (fun l1 => litB (layer (Nat.add z 64) n2) (fun l2 =>
-    litB (layer (Nat.add z 64) n3) (fun l3 => litB (layer z n4) (fun l4 =>
-      allN (scalY l1 l2 l3 l4 z) 71))))
+  allN (scalY (layer z n1) (layer (Nat.add z 64) n2) (layer (Nat.add z 64) n3) (layer z n4) z) 71
 
 /-- The whole band, from the four block products. -/
 noncomputable def scalChk : Bool :=
-  litB (Nat.mul (arrS 64 128) (arrS 64 128)) (fun n1 =>
-  litB (Nat.mul (arrS 64 64) (arrS 64 128)) (fun n2 =>
-  litB (Nat.mul (arrS 64 0) (arrS 65 192)) (fun n3 =>
-  litB (Nat.mul (arrS 64 64) (arrS 65 192)) (fun n4 =>
-    allN (scalZ n1 n2 n3 n4) 58))))
+  allN (scalZ (Nat.mul (arrS 64 128) (arrS 64 128)) (Nat.mul (arrS 64 64) (arrS 64 128))
+    (Nat.mul (arrS 64 0) (arrS 65 192)) (Nat.mul (arrS 64 64) (arrS 65 192))) 58
 
 end Row
 end OVNS

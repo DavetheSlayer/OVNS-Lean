@@ -138,27 +138,41 @@ theorem hh_read_gen {T L R : ℕ} {U : Mode → ℕ} {G : ℕ → ℕ}
   · rw [sum_block_full (R := 78) (fun p => U p ^ 2), sum_block_full (R := 78) (fun p => G (nsq p) ^ 2)]
     exact hnorm
 
-/-- The array of a kernel, in index form. -/
-lemma arrR78_spec {G : ℕ → ℕ} (hG : Ball 6084 G) :
+/-! ### The arrays of a kernel, in index form -/
+
+/-- A slot of a band row: a value below `2^64` times a weight at most `6084`. -/
+lemma slot78 {G : ℕ → ℕ} (hGb : ∀ A, G A < 2 ^ 64) {c : ℕ} (hc : c ≤ 6084) (A : ℕ) :
+    G A * c < 2 ^ 80 :=
+  calc G A * c ≤ G A * 6084 := Nat.mul_le_mul_left _ hc
+    _ < 2 ^ 64 * 6084 := Nat.mul_lt_mul_of_pos_right (hGb A) (by norm_num)
+    _ ≤ 2 ^ 80 := by norm_num
+
+lemma rowW78_spec {G wt : ℕ → ℕ} (hG : Ball 6084 G) (hGb : ∀ A, G A < 2 ^ 64)
+    (hwt : ∀ t < 157, wt t ≤ 6084) (s : ℕ) :
+    rowW 80 157 6084 (pr78 G wt) s = ∑ i ∈ range 157, (G (s + sq 78 i) * wt i) * (2 ^ 80) ^ i :=
+  rowW_spec (by norm_num) (by norm_num) (by norm_num) hG
+    (fun A _ t ht => slot78 hGb (hwt t ht) A) s
+
+lemma sq78_le {t : ℕ} (ht : t < 157) : sq 78 t ≤ 6084 := sq_le 78 t (by omega)
+
+lemma arrR78_spec {G : ℕ → ℕ} (hG : Ball 6084 G) (hGb : ∀ A, G A < 2 ^ 64) :
     arrR78 G = ∑ q ∈ Bl 157 157, G (nsq (ptB 78 0 q)) * (2 ^ 80) ^ idxP 201 q := by
-  have hb : 157 < 2 ^ 8 := by norm_num
-  have := arr_spec (w := 80) (P := 201) (wP := 16080) (wPP := 3232080) (R := 78) (n := 157)
-    (b := 8) (nz := 157) (z0 := 0) (bz := 8) (by norm_num) (by norm_num) hb hb
-    (fun _ => row0 80 78 6084 157 8 G) (fun _ s i => G (s + sq 78 i))
-    (fun _ s => row0_spec hG hb s)
+  have := arr_specT (w := 80) (P := 201) (wP := 16080) (wPP := 3232080) (R := 78) (n := 157)
+    (b := 8) (nz := 157) (z0 := 0) (bz := 8) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (fun _ => rowWS 80 157 6084 (pr78 G (fun _ => 1))) (fun _ s i => G (s + sq 78 i) * 1)
+    (fun _ _ s => by rw [← rowW78_spec hG hGb (fun _ _ => by norm_num) s]; rfl)
   unfold arrR78
   rw [this]
   refine sum_congr rfl fun q _ => ?_
-  rw [nsq_ptB']
+  rw [nsq_ptB', mul_one]
   rfl
 
-lemma arrLx_spec {F : ℕ → ℕ} (hF : Ball 6084 F) :
+lemma arrLx_spec {F : ℕ → ℕ} (hF : Ball 6084 F) (hFb : ∀ A, F A < 2 ^ 64) :
     arrLx F = ∑ q ∈ Bl 157 157, (F (nsq (ptB 78 0 q)) * wx (ptB 78 0 q)) * (2 ^ 80) ^ idxP 201 q := by
-  have hb : 157 < 2 ^ 8 := by norm_num
-  have := arr_spec (w := 80) (P := 201) (wP := 16080) (wPP := 3232080) (R := 78) (n := 157)
-    (b := 8) (nz := 157) (z0 := 0) (bz := 8) (by norm_num) (by norm_num) hb hb
-    (fun _ => row2 80 78 6084 157 8 F) (fun _ s i => F (s + sq 78 i) * sq 78 i)
-    (fun _ s => row2_spec hF hb s)
+  have := arr_specT (w := 80) (P := 201) (wP := 16080) (wPP := 3232080) (R := 78) (n := 157)
+    (b := 8) (nz := 157) (z0 := 0) (bz := 8) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (fun _ => rowWS 80 157 6084 (pr78 F (fun t => sq 78 t))) (fun _ s i => F (s + sq 78 i) * sq 78 i)
+    (fun _ _ s => by rw [← rowW78_spec hF hFb (fun _ ht => sq78_le ht) s]; rfl)
   unfold arrLx
   rw [this]
   refine sum_congr rfl fun q _ => ?_
@@ -168,13 +182,14 @@ lemma arrLx_spec {F : ℕ → ℕ} (hF : Ball 6084 F) :
   rw [this]
   rfl
 
-lemma arrLxy_spec {F : ℕ → ℕ} (hF : Ball 6084 F) :
+lemma arrLxy_spec {F : ℕ → ℕ} (hF : Ball 6084 F) (hFb : ∀ A, F A < 2 ^ 64) :
     arrLxy F = ∑ q ∈ Bl 157 157, (F (nsq (ptB 78 0 q)) * wxy (ptB 78 0 q)) * (2 ^ 80) ^ idxP 201 q := by
-  have hb : 157 < 2 ^ 8 := by norm_num
-  have := arr_spec (w := 80) (P := 201) (wP := 16080) (wPP := 3232080) (R := 78) (n := 157)
-    (b := 8) (nz := 157) (z0 := 0) (bz := 8) (by norm_num) (by norm_num) hb hb
-    (rowXY 80 78 6084 157 8 F) (fun iy s i => F (s + sq 78 i) * sq (2 * 78) (i + iy))
-    (fun iy s => rowXY_spec hF hb iy s)
+  have := arr_specT (w := 80) (P := 201) (wP := 16080) (wPP := 3232080) (R := 78) (n := 157)
+    (b := 8) (nz := 157) (z0 := 0) (bz := 8) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (rowXYg 80 157 78 6084 (pr78 F (fun _ => 1)) (pr78 F (fun t => t)) (pr78 F (fun t => sq 78 t)))
+    (fun iy s i => F (s + sq 78 i) * sq (2 * 78) (i + iy))
+    (fun iy hiy s => rowXYg_spec (by omega) (rowW78_spec hF hFb (fun _ _ => by norm_num) s)
+      (rowW78_spec hF hFb (fun t ht => by omega) s) (rowW78_spec hF hFb (fun _ ht => sq78_le ht) s))
   unfold arrLxy
   rw [this]
   refine sum_congr rfl fun q _ => ?_

@@ -5,7 +5,10 @@ No Mathlib here: the modules that run `decide +kernel` import only this file, wh
 of mapped `.olean` per worker.  Everything is written with raw `Nat.*` primitives and `Nat.rec`, so
 that the kernel's GMP acceleration and its `whnf` cache do the work: `lit e k` forces `e` to a
 literal before calling `k`, which memoizes rows keyed by literals
-(`OddViscousNS_data/reports/t13_rowbound_route.md` §7).  Specifications: `Row/Arrays.lean`.
+(`OddViscousNS_data/reports/t13_rowbound_route.md` §7).  The rows of the matrix band are not packed
+slot by slot but read off one product (`rowW`), which evaluates each radial function once per radius
+instead of once per slot (`OddViscousNS_data/reports/t13_evidence/refine_costs.md` §9).
+Specifications: `Row/Arrays.lean`.
 -/
 
 namespace OVNS
@@ -33,35 +36,67 @@ noncomputable def pkB (w : Nat) (g : Nat → Nat) (n : Nat) (b : Nat) : Nat → 
 noncomputable def sq (R i : Nat) : Nat :=
   Nat.add (Nat.mul (Nat.sub i R) (Nat.sub i R)) (Nat.mul (Nat.sub R i) (Nat.sub R i))
 
-/-- A plain row keyed by `s`; `0` outside the ball. -/
-noncomputable def row0 (w R R2 n b : Nat) (F : Nat → Nat) (s : Nat) : Nat :=
-  Bool.rec (motive := fun _ => Nat) 0 (pkB w (fun i => F (Nat.add s (sq R i))) n b 0) (Nat.ble s R2)
+/-- Digits `[s, s+n)` of `N` in base `2^w`, by a shift and a bit mask. -/
+noncomputable def winA (w s n N : Nat) : Nat :=
+  Nat.land (Nat.shiftRight N (Nat.mul w s)) (Nat.sub (Nat.shiftLeft 1 (Nat.mul w n)) 1)
 
-/-- The row of `i F`. -/
-noncomputable def row1 (w R R2 n b : Nat) (F : Nat → Nat) (s : Nat) : Nat :=
-  Bool.rec (motive := fun _ => Nat) 0
-    (pkB w (fun i => Nat.mul (F (Nat.add s (sq R i))) i) n b 0) (Nat.ble s R2)
+/-- The reversed radial table: digit `n j` holds `F (R2 - j)`, for `j ≤ R2`. -/
+noncomputable def ftR (w n R2 bA : Nat) (F : Nat → Nat) : Nat :=
+  pkB (Nat.mul w n) (fun j => F (Nat.sub R2 j)) (Nat.add R2 1) bA 0
 
-/-- The row of `x² F`. -/
-noncomputable def row2 (w R R2 n b : Nat) (F : Nat → Nat) (s : Nat) : Nat :=
-  Bool.rec (motive := fun _ => Nat) 0
-    (pkB w (fun i => Nat.mul (F (Nat.add s (sq R i))) (sq R i)) n b 0) (Nat.ble s R2)
+/-- The weights: digit `t + n (t-R)²` holds `wt t`, for `t < n`. -/
+noncomputable def qW (w n R b : Nat) (wt : Nat → Nat) : Nat :=
+  pkB 0 (fun t => Nat.shiftLeft (wt t) (Nat.mul w (Nat.add t (Nat.mul n (sq R t))))) n b 0
 
-/-- The row of `(x+y)² F`, assembled from the three memoized rows;
-`y₀ = (y)₊ = iy - R`, `y₁ = (-y)₊ = R - iy`. -/
-noncomputable def rowXY (w R R2 n b : Nat) (F : Nat → Nat) (iy s : Nat) : Nat :=
-  lit (row2 w R R2 n b F s) (fun r2 => lit (row1 w R R2 n b F s) (fun r1 =>
-    lit (row0 w R R2 n b F s) (fun r0 =>
-    Nat.sub (Nat.add r2 (Nat.add (Nat.mul (Nat.mul 2 (Nat.sub iy R)) r1)
-        (Nat.mul (Nat.add (Nat.mul (Nat.sub iy R) (Nat.sub iy R))
-          (Nat.add (Nat.mul (Nat.sub R iy) (Nat.sub R iy))
-            (Nat.mul (Nat.mul 2 R) (Nat.sub R iy)))) r0)))
-      (Nat.add (Nat.mul (Nat.mul 2 (Nat.sub R iy)) r1)
-        (Nat.mul (Nat.mul (Nat.mul 2 R) (Nat.sub iy R)) r0)))))
+/-- The product of the two, cut to its first `R2 + 1` rows of `n` digits: digit `t + n k` holds
+`F (R2 - k + (t-R)²) wt t`, one term per digit. -/
+noncomputable def prL (w n R R2 b bA : Nat) (F wt : Nat → Nat) : Nat :=
+  Nat.land (Nat.mul (ftR w n R2 bA F) (qW w n R b wt))
+    (Nat.sub (Nat.shiftLeft 1 (Nat.mul w (Nat.mul n (Nat.add R2 1)))) 1)
+
+/-- Superblock `J`: rows `[1024 J, 1024 J + 1024)` of the product. -/
+noncomputable def sblk (w n PR J : Nat) : Nat :=
+  winA w (Nat.mul (Nat.mul 1024 n) J) (Nat.mul 1024 n) PR
+
+/-- Block `jj` of superblock `J`: its rows `[64 jj, 64 jj + 64)`. -/
+noncomputable def blk (w n PR J jj : Nat) : Nat :=
+  winA w (Nat.mul (Nat.mul 64 n) jj) (Nat.mul 64 n) (sblk w n PR J)
+
+/-- The row of `wt · F` keyed by `s`: row `k = R2 - s` of the product `PR = prL … F wt`, read through
+its memoized superblock and block, so that no window copies more than its parent (the checkers keep
+every intermediate number); `0` outside the ball. -/
+noncomputable def rowW (w n R2 PR s : Nat) : Nat :=
+  Bool.rec (motive := fun _ => Nat) 0 (lit (Nat.sub R2 s) (fun k =>
+    lit (Nat.div k 1024) (fun J => lit (Nat.mod (Nat.div k 64) 16) (fun jj =>
+      winA w (Nat.mul n (Nat.mod k 64)) n (blk w n PR J jj))))) (Nat.ble s R2)
+
+/-- The row plus its key `s` in the lowest slot.  The checkers' caches hash a number literal by its
+lowest bits, and every row ends in a zero slot (`x = -R` lies outside the ball once `s ≥ 1`); without
+the key, the sums that build a slice all fall into one hash bucket, which con-leche scans linearly.
+`sliceT` takes the keys out of each slice. -/
+noncomputable def rowWS (w n R2 PR s : Nat) : Nat := Nat.add (rowW w n R2 PR s) s
+
+/-- The row of `(x+y)² F` plus its key, from the rows of `x² F` (`P2`, with its key), `i F` (`P1`) and
+`F` (`P0`), by the sign of `y = iy - R`: `x² + 2 y i - y (2R - y)` if `y ≥ 0`,
+`x² + |y| (2R + |y|) - 2 |y| i` if `y < 0`. -/
+noncomputable def rowXYg (w n R R2 P0 P1 P2 iy s : Nat) : Nat :=
+  Bool.rec (motive := fun _ => Nat)
+    (Nat.sub (Nat.add (rowWS w n R2 P2 s)
+        (Nat.mul (Nat.mul (Nat.sub R iy) (Nat.add (Nat.mul 2 R) (Nat.sub R iy))) (rowW w n R2 P0 s)))
+      (Nat.mul (Nat.mul 2 (Nat.sub R iy)) (rowW w n R2 P1 s)))
+    (Nat.sub (Nat.add (rowWS w n R2 P2 s) (Nat.mul (Nat.mul 2 (Nat.sub iy R)) (rowW w n R2 P1 s)))
+      (Nat.mul (Nat.mul (Nat.sub iy R) (Nat.sub (Nat.mul 2 R) (Nat.sub iy R))) (rowW w n R2 P0 s)))
+    (Nat.ble R iy)
 
 /-- The memoized slice of a row family `rw`. -/
 noncomputable def slice (wP R n b : Nat) (rw : Nat → Nat → Nat) (zz : Nat) : Nat :=
   pkB wP (fun iy => lit (Nat.add (sq R iy) zz) (rw iy)) n b 0
+
+/-- A slice of keyed rows (`rowWS`) with the keys taken out: the keys of slice `zz` are
+`∑_iy (sq R iy + zz) X^(P iy)`, made of two small constants. -/
+noncomputable def sliceT (wP R n b : Nat) (rw : Nat → Nat → Nat) (zz : Nat) : Nat :=
+  Nat.sub (slice wP R n b rw zz)
+    (Nat.add (pkB wP (fun iy => sq R iy) n b 0) (Nat.mul zz (pkB wP (fun _ => 1) n b 0)))
 
 /-- The array: `nz` slices from `z0`. -/
 noncomputable def arr (wPP R b nz z0 : Nat) (sl : Nat → Nat) : Nat :=
@@ -104,26 +139,31 @@ noncomputable def rd (w i N : Nat) : Nat :=
 noncomputable def allN (g : Nat → Bool) (n : Nat) : Bool :=
   Nat.rec (motive := fun _ => Bool) true (fun i ih => Bool.and (g i) ih) n
 
-/-- Compare the cube `[0,Z)³` of output digits of the product `N` with the table `T`. -/
+/-- Compare the cube `[0,Z)³` of output digits of the product `N` with the table `T`, one
+`z`-layer of each at a time. -/
 noncomputable def cubeChk (w P wPP off Z T N : Nat) : Bool :=
-  litB (win wPP off Z N) (fun Rg => allN (fun z =>
-    litB (win wPP z 1 Rg) (fun sl => allN (fun y =>
-      Nat.beq (win w (Nat.add off (Nat.mul P (Nat.add y off))) Z sl)
-        (win w (Nat.mul Z (Nat.add y (Nat.mul Z z))) Z T)) Z)) Z)
+  litB (winA wPP off Z N) (fun Rg => allN (fun z =>
+    litB (winA wPP z 1 Rg) (fun sl => litB (winA w (Nat.mul (Nat.mul Z Z) z) (Nat.mul Z Z) T) (fun Tz =>
+      allN (fun y => Nat.beq (winA w (Nat.add off (Nat.mul P (Nat.add y off))) Z sl)
+        (winA w (Nat.mul Z y) Z Tz)) Z))) Z)
 
 /-! ### The fixed parameters of the matrix band: `R = 78`, `P = 201`, `w = 80` -/
 
+/-- The product of the band for the radial function `F` and the weight `wt`. -/
+noncomputable def pr78 (F wt : Nat → Nat) : Nat := prL 80 157 78 6084 8 13 F wt
+
 /-- The right array of a kernel. -/
 noncomputable def arrR78 (F : Nat → Nat) : Nat :=
-  arr 3232080 78 8 157 0 (slice 16080 78 157 8 (fun _ => row0 80 78 6084 157 8 F))
+  arr 3232080 78 8 157 0 (sliceT 16080 78 157 8 (fun _ => rowWS 80 157 6084 (pr78 F (fun _ => 1))))
 
 /-- The left array with weight `x²`. -/
 noncomputable def arrLx (F : Nat → Nat) : Nat :=
-  arr 3232080 78 8 157 0 (slice 16080 78 157 8 (fun _ => row2 80 78 6084 157 8 F))
+  arr 3232080 78 8 157 0 (sliceT 16080 78 157 8 (fun _ => rowWS 80 157 6084 (pr78 F (fun t => sq 78 t))))
 
 /-- The left array with weight `(x+y)²`. -/
 noncomputable def arrLxy (F : Nat → Nat) : Nat :=
-  arr 3232080 78 8 157 0 (slice 16080 78 157 8 (rowXY 80 78 6084 157 8 F))
+  arr 3232080 78 8 157 0 (sliceT 16080 78 157 8
+    (rowXYg 80 157 78 6084 (pr78 F (fun _ => 1)) (pr78 F (fun t => t)) (pr78 F (fun t => sq 78 t))))
 
 /-- The table check of a product of the matrix band. -/
 noncomputable def hhChk (T L R : Nat) : Bool :=

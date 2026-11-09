@@ -9,3 +9,11 @@ rev = "e75a902d370b7bc0953464cb6894422ab4b4da86"
 
 [[lean_lib]]
 name = "OddViscousNS"
+
+# The statement template and the solution, as build targets for `lake comparator`
+# (see `comparator.json`).
+[[lean_lib]]
+name = "challenge"
+
+[[lean_lib]]
+name = "solution"

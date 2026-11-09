@@ -1,0 +1,13 @@
+{
+  "challenge_module": "challenge",
+  "solution_module": "solution",
+  "theorem_names": [
+    "Challenge.global_regularity",
+    "Challenge.quantitative_fixed_force",
+    "Challenge.quantitative_joint_force",
+    "Challenge.closed_regions_unforced",
+    "Challenge.closed_regions_forced"
+  ],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "external_kernels": {"con-leche": ["con-leche", "--jobs=2"]}
+}

@@ -78,14 +78,14 @@ lemma norm_bound {F G : ℕ → ℕ} {w : Mode → ℕ} (hF : Ball 6084 F) (hG :
 /-- A kernel whose tables were checked. -/
 theorem kerOK_of {F G : ℕ → ℕ} {T0 T1 : ℕ} (h0 : hhChk T0 (arrLx F) (arrR78 G) = true)
     (h1 : hhChk T1 (arrLxy F) (arrR78 G) = true) (hn : normChk F G = true) (hF : Ball 6084 F)
-    (hG : Ball 6084 G) : KerOK F G T0 T1 where
+    (hG : Ball 6084 G) (hFb : ∀ A, F A < 2 ^ 64) (hGb : ∀ A, G A < 2 ^ 64) : KerOK F G T0 T1 where
   r0 := fun hx hy hz => by
-    rw [hh_read_gen (U := fun p => F (nsq p) * wx p) (arrLx_spec hF) (arrR78_spec hG) h0 hG
+    rw [hh_read_gen (U := fun p => F (nsq p) * wx p) (arrLx_spec hF hFb) (arrR78_spec hG hGb) h0 hG
       (norm_bound hF hG wx_le hn) hx hy hz]
     rfl
   r1 := fun hx hy hz => by
-    rw [hh_read_gen (U := fun p => F (nsq p) * wxy p) (arrLxy_spec hF) (arrR78_spec hG) h1 hG
-      (norm_bound hF hG wxy_le hn) hx hy hz]
+    rw [hh_read_gen (U := fun p => F (nsq p) * wxy p) (arrLxy_spec hF hFb) (arrR78_spec hG hGb) h1
+      hG (norm_bound hF hG wxy_le hn) hx hy hz]
     rfl
 
 /-- A real-weighted convolution. -/

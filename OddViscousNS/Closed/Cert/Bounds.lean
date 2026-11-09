@@ -120,6 +120,61 @@ theorem check_of_split {e : Edge} {n : ℕ} {b b1 b2 : Box} (hs : split b = (b1,
     (h1 : check e n b1 = true) (h2 : check e n b2 = true) : check e (n + 1) b = true := by
   simp [check, hs, h1, h2]
 
+
+/-! ### Leaf-only checking
+
+A generated certificate theorem used to prove `check e n b = true` by evaluating `check` itself,
+which computes the bound at every node of the bisection tree, including the internal nodes where it
+fails.  `checkTr` follows a given tree shape and evaluates the bound at the leaves only; `check_of_tr`
+returns the same statement `check e n b = true`.  This halves the kernel work and changes nothing
+downstream. -/
+
+/-- The shape of a bisection tree. -/
+inductive Tr where
+  | leaf
+  | node (l r : Tr)
+
+/-- Its depth. -/
+def Tr.depth : Tr → ℕ
+  | .leaf => 0
+  | .node l r => max l.depth r.depth + 1
+
+/-- The tree-guided checker: the bound is evaluated at the leaves only. -/
+def checkTr (e : Edge) : Tr → Box → Bool
+  | .leaf, b => accept e b
+  | .node l r, b => checkTr e l (split b).1 && checkTr e r (split b).2
+
+theorem check_succ_of (e : Edge) : ∀ n b, check e n b = true → check e (n + 1) b = true := by
+  intro n
+  induction n with
+  | zero => intro b h; simp only [check] at h ⊢; simp [h]
+  | succ n ih =>
+    intro b h
+    rw [check, Bool.or_eq_true, Bool.and_eq_true] at h
+    rw [check, Bool.or_eq_true, Bool.and_eq_true]
+    rcases h with h | ⟨h1, h2⟩
+    · exact Or.inl h
+    · exact Or.inr ⟨ih _ h1, ih _ h2⟩
+
+theorem check_le_of (e : Edge) {m n : ℕ} (hmn : m ≤ n) (b : Box) (h : check e m b = true) :
+    check e n b = true := by
+  induction hmn with
+  | refl => exact h
+  | step _ ih => exact check_succ_of e _ _ ih
+
+theorem checkTr_sound (e : Edge) : ∀ t b, checkTr e t b = true → check e t.depth b = true
+  | .leaf, b, h => by simpa [check, checkTr, Tr.depth] using h
+  | .node l r, b, h => by
+    simp only [checkTr, Bool.and_eq_true] at h
+    have h1 := check_le_of e (le_max_left l.depth r.depth) _ (checkTr_sound e l _ h.1)
+    have h2 := check_le_of e (le_max_right l.depth r.depth) _ (checkTr_sound e r _ h.2)
+    simp [check, Tr.depth, h1, h2]
+
+/-- What a generated certificate theorem uses: the old statement, from the tree check. -/
+theorem check_of_tr {e : Edge} {n : ℕ} {b : Box} (t : Tr) (h : checkTr e t b = true)
+    (hn : t.depth ≤ n) : check e n b = true :=
+  check_le_of e hn b (checkTr_sound e t b h)
+
 end Cert
 
 end OVNS
