@@ -1,0 +1,17 @@
+import OddViscousNS.Closed.Cert.Bounds
+
+set_option maxHeartbeats 0
+set_option maxRecDepth 100000
+
+namespace OVNS.Cert
+
+theorem e29_32_0 : check (edgeOf 29) 42 ⟨(1 / 2 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e29_32_1 : check (edgeOf 29) 41 ⟨(1 / 2 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e29_32_2 : check (edgeOf 29) 41 ⟨(3 / 4 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ)⟩ = true := by
+  decide +kernel
+
+end OVNS.Cert

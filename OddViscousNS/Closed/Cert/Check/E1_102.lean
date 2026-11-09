@@ -1,0 +1,32 @@
+import OddViscousNS.Closed.Cert.Bounds
+
+set_option maxHeartbeats 0
+set_option maxRecDepth 100000
+
+namespace OVNS.Cert
+
+theorem e1_102_0 : check (edgeOf 1) 37 ⟨(3 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e1_102_1 : check (edgeOf 1) 37 ⟨(3 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e1_102_2 : check (edgeOf 1) 35 ⟨(1 / 4 : ℚ), (5 / 16 : ℚ), (3 / 4 : ℚ), (7 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e1_102_3 : check (edgeOf 1) 35 ⟨(5 / 16 : ℚ), (3 / 8 : ℚ), (3 / 4 : ℚ), (7 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e1_102_4 : check (edgeOf 1) 35 ⟨(1 / 4 : ℚ), (5 / 16 : ℚ), (3 / 4 : ℚ), (7 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e1_102_5 : check (edgeOf 1) 35 ⟨(5 / 16 : ℚ), (3 / 8 : ℚ), (3 / 4 : ℚ), (7 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e1_102_6 : check (edgeOf 1) 35 ⟨(1 / 4 : ℚ), (5 / 16 : ℚ), (7 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ)⟩ = true := by
+  decide +kernel
+
+theorem e1_102_7 : check (edgeOf 1) 35 ⟨(5 / 16 : ℚ), (3 / 8 : ℚ), (7 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ)⟩ = true := by
+  decide +kernel
+
+end OVNS.Cert
