@@ -11,6 +11,7 @@ This repository contains only the formalization: Lean sources, encoded numerical
 - `solution.lean`: the five final statements and their proofs in namespace `Challenge`, followed by `#print axioms` commands.
 - `challenge.lean`: the corresponding statement template. It imports only Mathlib; its five `sorry` placeholders are intentional. Use `solution.lean` to check the proofs.
 - `comparator.json`: the challenge description for `lake comparator` (see below).
+- `reports/comparator-2026-11-09.md`: the report of an accepted `lake comparator` run.
 
 | Paper result | Final theorem in `solution.lean` |
 |---|---|
@@ -33,6 +34,8 @@ lake env lean solution.lean
 The last command prints the axioms used by each final theorem: only `propext`, `Classical.choice`, and `Quot.sound`.
 
 A fresh complete build is substantial. Measured on a 10-core Apple silicon Mac with 34 GB of memory, with six workers: the roughly 2,500 certificate modules under `OddViscousNS/Closed/Cert/` take about 48 minutes, and the 106 modules that depend on `OddViscousNS/Closed/Row/Core.lean` (the row bound of Theorem 1.3) about 33 minutes. The largest single modules are `OddViscousNS/Closed/Row/Data/Scal.lean` (28 s, peak 14.2 GB) and the twelve `OddViscousNS/Closed/Row/Data/HHc*.lean` (6–14 s, peak 10–12 GB each), so limit the number of parallel workers on smaller machines, for example `LEAN_NUM_THREADS=2 lake build OddViscousNS`.
+
+On a 112-core Linux node the row-band modules `OddViscousNS/Closed/Row/Data/Low_*.lean` were much larger: 100–306 s and about 66 GB each, and four in parallel held 264 GB (see the comparator report). The cause was not found; a candidate is that Lean checks more of a module's theorems at once on a machine with many cores. On such machines, allow about 70 GB per parallel `Low_*` build.
 
 ## Compare the statements
 
@@ -59,21 +62,27 @@ lake exe cache get
 lake comparator          # reads comparator.json; exit code 0 means accepted
 ```
 
-Comparator then builds the library inside the sandbox, which takes the time and memory described under **Build**. It can also judge exports produced elsewhere with `leanexport` (`--challenge-from-export`, `--solution-from-export`); see `lake comparator --help`.
+**Result.** `lake comparator` with `comparator.json` accepted commit `9bd811d` on 9 November 2026 (exit code 0, "Lean default kernel accepts the solution"), on a node of the Harvard FASRC cluster with bubblewrap 0.11.2 and a 512 GB Slurm job. The run used the default configuration only, Lean's kernel through `leanchecker`; neither `comparator-con-leche.json` nor `--paranoid` was run. Details, including the deviations from these instructions (cache download in a container, a `COMPARATOR_BWRAP` wrapper setting `LEAN_NUM_THREADS=4`, a node-local copy, earlier out-of-memory attempts), are in [`reports/comparator-2026-11-09.md`](reports/comparator-2026-11-09.md).
+
+Comparator then builds the library inside the sandbox and replays the solution's export with `leanchecker`. In the accepted run the build took 2 h 18 min, the export 10 min and the kernel replay 6 h 7 min, 8 h 35 min in all, with a peak of 302 GB during the build and at most 72 GB during the replay. Comparator can also judge exports produced elsewhere with `leanexport` (`--challenge-from-export`, `--solution-from-export`); see `lake comparator --help`.
+
+Practical notes from that run:
+
+- `lake exe cache get` compiles Mathlib's cache tool with the toolchain's bundled `clang`, which needs glibc 2.30 or later (for example Ubuntu 20.04, Debian 11, RHEL 9). On older systems run it in a container; `lean`, `lake`, `leanexport` and `leanchecker` run on glibc 2.28.
+- Comparator starts `bwrap` with `--clearenv`, so a `LEAN_NUM_THREADS` set outside does not reach the sandboxed build. To limit parallelism, point `COMPARATOR_BWRAP` at a wrapper that adds `--setenv LEAN_NUM_THREADS <n>` after `--clearenv` (the report gives one), or give the build enough memory for the default parallelism.
 
 Options:
 
 - `lake comparator --config comparator-con-leche.json` (untested) also requires `con-leche`, the verified checker bundled with the toolchain, to accept the export. With con-leche alone, the twelve table checks of Theorem 1.3 take 30–148 s each (17 minutes in total, at most 9.2 GB), the scalar band check `scal_ok` 78 s (15.5 GB), and Theorems 1.1 and 1.2 about a minute each. The whole of Theorem 1.3 is estimated at about 13 CPU-hours, mostly the 8,376 row theorems (about 4 s each) and the 19,587 certificate theorems (about 0.4 s each); that complete run has not been done yet. The configuration starts con-leche with `--jobs=2`; allow about 16 GB per worker.
 - `lake comparator --paranoid` also runs `nanoda`, `con-ron`, `lean4lean` and `leanchecker-paranoid`. Theorem 1.3 cannot pass it: nanoda and con-ron cannot evaluate the products of integers with about 10⁹ bits used by the row-bound certificates (con-ron runs out of memory on one 7-Mbit squaring, and nanoda's shifts take quadratic time). nanoda, con-ron and con-leche each accepted Theorems 1.1 and 1.2. Run directly, the bundled `lean4lean` could not read this toolchain's `.olean` files, and `leanchecker-paranoid` was only tried on single modules.
 
-`lake comparator` itself has not yet been run on this repository, because no Linux machine with `bwrap` was available. The configuration follows `lake comparator --help` of this toolchain, and the `challenge` and `solution` targets were checked to build (`lake build challenge solution`).
-
-## Verification status (9 November 2026)
+## Verification status (10 November 2026)
 
 - **Lean's kernel.** `lake build OddViscousNS` completes with no errors (24,548 jobs) on exactly these sources, and `#print axioms` reports only `propext`, `Classical.choice`, and `Quot.sound` for the five final theorems.
+- **Comparator.** `lake comparator` accepted the five theorems on commit `9bd811d`: the same statements as in `challenge.lean`, no axioms beyond `propext`, `Quot.sound` and `Classical.choice`, and acceptance by Lean's kernel replayed from the export ([report](reports/comparator-2026-11-09.md)). Comparator does not check that `challenge.lean` states the paper's theorems faithfully.
 - **Statements.** `compare_challenge_solution.lean` reports 0 mismatches. On 7–8 November an independent comparison of the five statements in the `leanexport` output also agreed, and caught deliberately altered controls; the statements and the definitions they use have not changed since.
 - **Independent kernels.** nanoda, con-ron and con-leche accepted Theorems 1.1 and 1.2 (both statements) on 7–8 November; those parts are unchanged since. For Theorem 1.3, con-leche accepted the twelve table checks and the scalar band check on 9 November. The rest of Theorem 1.3 (the row band and the certificates) has not been replayed by an independent kernel.
-- **Not done.** A run of `lake comparator`, a complete independent replay of Theorem 1.3, a mathematical correctness audit, or manual expert review.
+- **Not done.** Comparator with an independent kernel (`comparator-con-leche.json`) or `--paranoid`, a complete independent replay of Theorem 1.3, a mathematical correctness audit, or manual expert review.
 
 ## Changes since the first upload
 
