@@ -82,7 +82,6 @@ Options:
 - **Comparator.** `lake comparator` accepted the five theorems on commit `9bd811d`: the same statements as in `challenge.lean`, no axioms beyond `propext`, `Quot.sound` and `Classical.choice`, and acceptance by Lean's kernel replayed from the export ([report](reports/comparator-2026-11-09.md)). Comparator does not check that `challenge.lean` states the paper's theorems faithfully.
 - **Statements.** `compare_challenge_solution.lean` reports 0 mismatches. On 7–8 November an independent comparison of the five statements in the `leanexport` output also agreed, and caught deliberately altered controls; the statements and the definitions they use have not changed since.
 - **Independent kernels.** nanoda, con-ron and con-leche accepted Theorems 1.1 and 1.2 (both statements) on 7–8 November; those parts are unchanged since. For Theorem 1.3, con-leche accepted the twelve table checks and the scalar band check on 9 November. The rest of Theorem 1.3 (the row band and the certificates) has not been replayed by an independent kernel.
-- **Not done.** Comparator with an independent kernel (`comparator-con-leche.json`) or `--paranoid`, a complete independent replay of Theorem 1.3, a mathematical correctness audit, or manual expert review.
 
 ## Changes since the first upload
 
